@@ -16,7 +16,7 @@ import { NodesModule } from './nodes/nodes.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    NodesModule
+    NodesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
