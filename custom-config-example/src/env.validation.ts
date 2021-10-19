@@ -1,11 +1,11 @@
-import { plainToClass } from 'class-transformer';
-import {IsEnum, IsNumber, IsString, validateSync} from 'class-validator';
+import { plainToClass } from 'class-transformer'
+import { IsEnum, IsNumber, IsString, validateSync } from 'class-validator'
 
 enum Environment {
-  Development = "development",
-  Production = "production",
-  Test = "test",
-  Provision = "provision",
+  Development = 'development',
+  Production = 'production',
+  Test = 'test',
+  Provision = 'provision',
 }
 
 class EnvironmentVariables {
@@ -13,22 +13,18 @@ class EnvironmentVariables {
   // NODE_ENV: Environment;
 
   @IsNumber()
-  PORT: number = 3000;
+  readonly PORT: number = 3000
 
   @IsString()
-  COMMON_VAR: string;
+  readonly COMMON_VAR: string
 }
 
 export function validate(config: Record<string, unknown>) {
-  const validatedConfig = plainToClass(
-    EnvironmentVariables,
-    config,
-    { enableImplicitConversion: true },
-  );
-  const errors = validateSync(validatedConfig, { skipMissingProperties: false });
+  const validatedConfig = plainToClass(EnvironmentVariables, config, { enableImplicitConversion: true })
+  const errors = validateSync(validatedConfig, { skipMissingProperties: false })
 
   if (errors.length > 0) {
-    throw new Error(errors.toString());
+    throw new Error(errors.toString())
   }
-  return validatedConfig;
+  return validatedConfig
 }
