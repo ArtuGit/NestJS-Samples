@@ -3,9 +3,11 @@ import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 
 import { AppModule } from './../src/app.module'
+import { ConfigService } from "@nestjs/config";
 
 describe('AppController (e2e)', () => {
   let app: INestApplication
+  let configService: ConfigService
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -13,10 +15,16 @@ describe('AppController (e2e)', () => {
     }).compile()
 
     app = moduleFixture.createNestApplication()
+    configService = app.get(ConfigService)
+
     await app.init()
   })
 
   it('/ (GET)', () => {
-    return request(app.getHttpServer()).get('/').expect(200).expect('Hello World!')
+    const port = configService.get<number>('PORT')
+    const commonVar = configService.get<string>('COMMON_VAR')
+    const res = `Hello World! (on port ${port}) <br> COMMON_VAR="${commonVar}"`
+
+    return request(app.getHttpServer()).get('/').expect(200).expect(res)
   })
 })
