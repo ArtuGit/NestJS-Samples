@@ -1,5 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+echo "Pre commit 2"
 npm run lint:fix
 npm run format:staged
