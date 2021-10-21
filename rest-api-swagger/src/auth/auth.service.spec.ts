@@ -21,7 +21,7 @@ describe('AuthService', () => {
           signOptions: { expiresIn: '60s' },
         }),
       ],
-      providers: [AuthService, LocalStrategy, JwtStrategy],
+      providers: [AuthService, JwtStrategy],
     }).compile()
 
     service = moduleRef.get<AuthService>(AuthService)
@@ -45,7 +45,7 @@ describe('validateUser', () => {
           signOptions: { expiresIn: '60s' },
         }),
       ],
-      providers: [AuthService, LocalStrategy, JwtStrategy],
+      providers: [AuthService, JwtStrategy],
     }).compile()
 
     service = moduleRef.get<AuthService>(AuthService)
@@ -75,14 +75,14 @@ describe('validateLogin', () => {
           signOptions: { expiresIn: '60s' },
         }),
       ],
-      providers: [AuthService, LocalStrategy, JwtStrategy],
+      providers: [AuthService, JwtStrategy],
     }).compile()
 
     service = moduleRef.get<AuthService>(AuthService)
   })
 
   it('should return JWT object when credentials are valid', async () => {
-    const res = await service.login({ username: 'maria', userId: 3 })
+    const res = await service.login({ username: 'maria', password: '3' })
     expect(res.access_token).toBeDefined()
   })
 })
