@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt'
 
 import { UsersService } from '../users/users.service'
 import { LoginBody } from '../users/dto/login.body'
+import { LoginResponse } from '../users/dto/login.response'
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
     return null
   }
 
-  async login({ username, password }: LoginBody) {
+  async login({ username, password }: LoginBody): Promise<LoginResponse> {
     if (!username || !password) throw new BadRequestException()
 
     let user = null
