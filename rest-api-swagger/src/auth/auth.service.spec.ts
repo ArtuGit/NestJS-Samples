@@ -1,6 +1,7 @@
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { Test, TestingModule } from '@nestjs/testing'
+import { forwardRef } from '@nestjs/common'
 
 import { UsersModule } from '../users/users.module'
 
@@ -14,11 +15,11 @@ describe('AuthService', () => {
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [
-        UsersModule,
+        forwardRef(() => UsersModule),
         PassportModule,
         JwtModule.register({
           secret: jwtConstants.secret,
-          signOptions: { expiresIn: '60s' },
+          signOptions: { expiresIn: '600m' },
         }),
       ],
       providers: [AuthService, JwtStrategy],
@@ -82,7 +83,7 @@ describe('validateLogin', () => {
   })
 
   it('should return JWT object when credentials are valid', async () => {
-    const res = await service.login({ username: 'maria', password: '3' })
+    const res = await service.login({ username: 'john', password: 'changeme' })
     expect(res.access_token).toBeDefined()
   })
 })

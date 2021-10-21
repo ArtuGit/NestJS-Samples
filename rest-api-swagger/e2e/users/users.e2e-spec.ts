@@ -17,13 +17,13 @@ describe('E2E JWT Sample', () => {
 
   it('should get a JWT then successfully make a call', async () => {
     const loginReq = await request(app.getHttpServer())
-      .post('/users/login')
+      .post('/user/login')
       .send({ username: 'john', password: 'changeme' })
       .expect(201)
 
     const token = loginReq.body.access_token
     return request(app.getHttpServer())
-      .get('/users/profile')
+      .get('/user/profile')
       .set('Authorization', 'Bearer ' + token)
       .expect(200)
       .expect({ userId: 1, username: 'john' })
