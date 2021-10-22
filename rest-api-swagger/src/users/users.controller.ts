@@ -3,10 +3,11 @@ import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
 import { AuthService } from '../auth/auth.service'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
-import { User } from '../auth/decorators/user.decorator'
+import { User as UserLoggedIn } from '../auth/decorators/user.decorator'
 
 import { LoginBody } from './dto/login.body'
 import { LoginResponse } from './dto/login.response'
+import {User} from "./dto/user";
 
 @ApiTags('Users')
 @Controller({
@@ -24,8 +25,9 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
+  @ApiOkResponse({ type: User })
   @Get('profile')
-  getProfile(@User() user: any) {
+  getProfile(@UserLoggedIn() user: any): User {
     return user
   }
 }
