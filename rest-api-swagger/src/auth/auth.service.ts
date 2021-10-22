@@ -36,8 +36,8 @@ export class AuthService {
 
     const payload = { username: user.username, sub: user.userId }
 
-    return Promise.resolve({
-      access_token: this.jwtService.sign(payload, { expiresIn: this.configService.get<string>('JWT_EXPIRES_IN') }),
-    })
+    return {
+      access_token: this.jwtService.sign(payload),
+    }
   }
 }
