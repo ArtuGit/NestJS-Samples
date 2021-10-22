@@ -13,8 +13,8 @@ export class Company {
   salesFunnelStage: SalesFunnelStage
 
   @ApiProperty({ type: String })
-  websiteURL: string
+  websiteURL?: string
 
   @ApiProperty({ type: String })
-  logoURI: string
+  logoURI?: string
 }

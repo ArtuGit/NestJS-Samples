@@ -3,13 +3,20 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/
 import { CompaniesService } from './companies.service'
 import { CreateCompanyBody } from './dto/create-company.body'
 import { UpdateCompanyBody } from './dto/update-company.body'
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { Company } from './entities/company.entity'
 
-@Controller('companies')
+@ApiTags('Companies')
+@Controller({
+  path: 'companies',
+  version: '1',
+})
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
+  @ApiOkResponse({ type: Company })
   @Post()
-  create(@Body() createCompanyBody: CreateCompanyBody) {
+  async create(@Body() createCompanyBody: CreateCompanyBody): Promise<Company> {
     return this.companiesService.create(createCompanyBody)
   }
 

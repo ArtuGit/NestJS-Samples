@@ -3,11 +3,15 @@ import { Injectable } from '@nestjs/common'
 import { CreateCompanyBody } from './dto/create-company.body'
 import { UpdateCompanyBody } from './dto/update-company.body'
 import { PatchCompanyBody } from './dto/patch-company.body'
+import { Company } from './entities/company.entity'
 
 @Injectable()
 export class CompaniesService {
-  create(createCompanyBody: CreateCompanyBody) {
-    return 'This action adds a new company'
+  async create(createCompanyBody: CreateCompanyBody): Promise<Company> {
+    return {
+      _id: Math.floor(100000 + Math.random() * 900000).toString(),
+      ...createCompanyBody,
+    }
   }
 
   findAll() {
