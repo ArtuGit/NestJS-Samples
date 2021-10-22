@@ -18,19 +18,22 @@ export class CompaniesService {
     return `This action returns all companies`
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} company`
   }
 
-  update(id: number, updateCompanyBody: UpdateCompanyBody) {
-    return `This action updates a #${id} company`
+  async update(id: string, updateCompanyBody: UpdateCompanyBody): Promise<Company> {
+    return {
+      _id: id,
+      ...updateCompanyBody,
+    }
   }
 
-  patch(id: number, updateCompanyBody: PatchCompanyBody) {
+  patch(id: string, updateCompanyBody: PatchCompanyBody) {
     return `This action patch a #${id} company`
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} company`
   }
 }
