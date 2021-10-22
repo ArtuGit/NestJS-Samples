@@ -1,5 +1,5 @@
 import { plainToClass } from 'class-transformer'
-import { IsEnum, IsNumber, IsString, validateSync } from 'class-validator'
+import { IsEnum, IsNotEmpty, IsNumber, IsString, validateSync } from 'class-validator'
 
 enum Environment {
   Development = 'development',
@@ -17,6 +17,14 @@ class EnvironmentVariables {
 
   @IsString()
   readonly COMMON_VAR: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly JWT_SECRET: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly JWT_EXPIRES_IN: string
 }
 
 export function validate(config: Record<string, unknown>) {

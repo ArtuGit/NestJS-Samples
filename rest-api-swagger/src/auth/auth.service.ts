@@ -4,10 +4,15 @@ import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '../users/users.service'
 import { LoginBody } from '../users/dto/login.body'
 import { LoginResponse } from '../users/dto/login.response'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username)
@@ -30,8 +35,9 @@ export class AuthService {
     }
 
     const payload = { username: user.username, sub: user.userId }
-    return {
-      access_token: this.jwtService.sign(payload),
-    }
+
+    return Promise.resolve({
+      access_token: this.jwtService.sign(payload, { expiresIn: this.configService.get<string>('JWT_EXPIRES_IN') }),
+    })
   }
 }
