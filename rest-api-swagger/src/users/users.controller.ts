@@ -7,7 +7,7 @@ import { User as UserLoggedIn } from '../auth/decorators/user.decorator'
 
 import { LoginBody } from './dto/login.body'
 import { LoginResponse } from './dto/login.response'
-import {User} from "./dto/user";
+import { User } from './dto/user'
 
 @ApiTags('Users')
 @Controller({
