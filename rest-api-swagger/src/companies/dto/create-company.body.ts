@@ -1,11 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
-
 import { SalesFunnelStage } from '../interfaces/companies.interfaces'
 
-export class Company {
-  @ApiProperty({ type: String })
-  _id: string
-
+export class CreateCompanyBody {
   @ApiProperty({ type: String })
   name: string
 
@@ -14,7 +10,4 @@ export class Company {
 
   @ApiProperty({ type: String })
   websiteURL: string
-
-  @ApiProperty({ type: String })
-  logoURI: string
 }

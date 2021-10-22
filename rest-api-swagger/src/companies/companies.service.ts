@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common'
 
-import { CreateCompanyDto } from './dto/create-company.dto'
-import { UpdateCompanyDto } from './dto/update-company.dto'
+import { CreateCompanyBody } from './dto/create-company.body'
+import { UpdateCompanyBody } from './dto/update-company.body'
+import { PatchCompanyBody } from './dto/patch-company.body'
 
 @Injectable()
 export class CompaniesService {
-  create(createCompanyDto: CreateCompanyDto) {
+  create(createCompanyBody: CreateCompanyBody) {
     return 'This action adds a new company'
   }
 
@@ -17,8 +18,12 @@ export class CompaniesService {
     return `This action returns a #${id} company`
   }
 
-  update(id: number, updateCompanyDto: UpdateCompanyDto) {
+  update(id: number, updateCompanyBody: UpdateCompanyBody) {
     return `This action updates a #${id} company`
+  }
+
+  patch(id: number, updateCompanyBody: PatchCompanyBody) {
+    return `This action patch a #${id} company`
   }
 
   remove(id: number) {

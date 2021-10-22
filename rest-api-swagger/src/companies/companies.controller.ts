@@ -1,16 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common'
 
 import { CompaniesService } from './companies.service'
-import { CreateCompanyDto } from './dto/create-company.dto'
-import { UpdateCompanyDto } from './dto/update-company.dto'
+import { CreateCompanyBody } from './dto/create-company.body'
+import { UpdateCompanyBody } from './dto/update-company.body'
 
 @Controller('companies')
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Post()
-  create(@Body() createCompanyDto: CreateCompanyDto) {
-    return this.companiesService.create(createCompanyDto)
+  create(@Body() createCompanyBody: CreateCompanyBody) {
+    return this.companiesService.create(createCompanyBody)
   }
 
   @Get()
@@ -23,9 +23,14 @@ export class CompaniesController {
     return this.companiesService.findOne(+id)
   }
 
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateCompanyBody: UpdateCompanyBody) {
+    return this.companiesService.update(+id, updateCompanyBody)
+  }
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto) {
-    return this.companiesService.update(+id, updateCompanyDto)
+  patch(@Param('id') id: string, @Body() updateCompanyBody: UpdateCompanyBody) {
+    return this.companiesService.patch(+id, updateCompanyBody)
   }
 
   @Delete(':id')
