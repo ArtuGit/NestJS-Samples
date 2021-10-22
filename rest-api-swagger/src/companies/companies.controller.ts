@@ -8,8 +8,8 @@ import { Company } from './entities/company.entity'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 
 @ApiTags('Companies')
-@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 @Controller({
   path: 'companies',
   version: '1',
