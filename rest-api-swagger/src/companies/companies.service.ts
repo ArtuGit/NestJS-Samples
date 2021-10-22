@@ -29,7 +29,7 @@ export class CompaniesService {
     }
   }
 
-  patch(id: string, updateCompanyBody: PatchCompanyBody) {
+  patch(id: string, patchCompanyBody: PatchCompanyBody) {
     return `This action patch a #${id} company`
   }
 
