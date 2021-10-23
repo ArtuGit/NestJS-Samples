@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 
-import { User, UsersService } from './users.service'
+import { IUser } from './interfaces/user.interface'
+import { UsersService } from './users.service'
 
 describe('UsersService', () => {
   let service: UsersService
@@ -18,10 +19,10 @@ describe('UsersService', () => {
   })
   it.each`
     name      | returnVal
-    ${'john'} | ${{ userId: 1, username: 'john', password: 'changeme' }}
+    ${'john'} | ${{ id: '1', username: 'john', password: 'changeme' }}
   `(
     'should call findOne for $name and return $returnVal',
-    async ({ name, returnVal }: { name: string; returnVal: User }) => {
+    async ({ name, returnVal }: { name: string; returnVal: IUser }) => {
       expect(await service.findOne(name)).toEqual(returnVal)
     },
   )

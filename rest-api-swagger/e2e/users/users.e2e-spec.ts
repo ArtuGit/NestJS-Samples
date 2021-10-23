@@ -26,7 +26,7 @@ describe('E2E JWT Sample', () => {
       .get('/user/profile')
       .set('Authorization', 'Bearer ' + token)
       .expect(200)
-      .expect({ userId: 1, username: 'john' })
+      .expect({ id: '1', username: 'john' })
   })
 
   afterAll(async () => {
