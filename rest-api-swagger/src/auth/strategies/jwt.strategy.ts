@@ -17,3 +17,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return { userId: payload.sub, username: payload.username }
   }
 }
+
+@Injectable()
+export class JwtStrategyTest extends PassportStrategy(Strategy) {
+  constructor(private readonly configService: ConfigService) {
+    super(<StrategyOptions>{
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: 'JWT_SECRET',
+    })
+  }
+
+  async validate(payload: any) {
+    return { userId: payload.sub, username: payload.username }
+  }
+}

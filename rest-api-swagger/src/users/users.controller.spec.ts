@@ -4,6 +4,7 @@ import { forwardRef } from '@nestjs/common'
 import { AuthModule } from '../auth/auth.module'
 
 import { UsersController } from './users.controller'
+import { JwtStrategy, JwtStrategyTest } from '../auth/strategies/jwt.strategy'
 
 describe('UsersController', () => {
   let controller: UsersController
@@ -12,7 +13,10 @@ describe('UsersController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AuthModule)],
       controllers: [UsersController],
-    }).compile()
+    })
+      .overrideProvider(JwtStrategy)
+      .useClass(JwtStrategyTest)
+      .compile()
 
     controller = module.get<UsersController>(UsersController)
   })

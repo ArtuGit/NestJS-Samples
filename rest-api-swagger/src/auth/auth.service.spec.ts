@@ -2,17 +2,18 @@ import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { Test, TestingModule } from '@nestjs/testing'
 import { forwardRef } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
 
 import { UsersModule } from '../users/users.module'
 
 import { AuthService } from './auth.service'
 import { jwtConstants } from './constants'
-import { JwtStrategy } from './strategies/jwt.strategy'
+import { JwtStrategy, JwtStrategyTest } from './strategies/jwt.strategy'
 
 describe('AuthService', () => {
   let service: AuthService
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [
         forwardRef(() => UsersModule),
@@ -21,69 +22,33 @@ describe('AuthService', () => {
           secret: jwtConstants.secret,
           signOptions: { expiresIn: '600m' },
         }),
+        ConfigModule,
       ],
       providers: [AuthService, JwtStrategy],
-    }).compile()
+    })
+      .overrideProvider(JwtStrategy)
+      .useClass(JwtStrategyTest)
+      .compile()
 
     service = moduleRef.get<AuthService>(AuthService)
   })
 
-  it('should be defined', () => {
-    expect(service).toBeDefined()
-  })
-})
+  describe('validateUser', () => {
+    it('should return a user object when credentials are valid', async () => {
+      const res = await service.validateUser('maria', 'guess')
+      expect(res.userId).toEqual(3)
+    })
 
-describe('validateUser', () => {
-  let service: AuthService
-
-  beforeEach(async () => {
-    const moduleRef: TestingModule = await Test.createTestingModule({
-      imports: [
-        UsersModule,
-        PassportModule,
-        JwtModule.register({
-          secret: jwtConstants.secret,
-          signOptions: { expiresIn: '60s' },
-        }),
-      ],
-      providers: [AuthService, JwtStrategy],
-    }).compile()
-
-    service = moduleRef.get<AuthService>(AuthService)
+    it('should return null when credentials are invalid', async () => {
+      const res = await service.validateUser('xxx', 'xxx')
+      expect(res).toBeNull()
+    })
   })
 
-  it('should return a user object when credentials are valid', async () => {
-    const res = await service.validateUser('maria', 'guess')
-    expect(res.userId).toEqual(3)
-  })
-
-  it('should return null when credentials are invalid', async () => {
-    const res = await service.validateUser('xxx', 'xxx')
-    expect(res).toBeNull()
-  })
-})
-
-describe('validateLogin', () => {
-  let service: AuthService
-
-  beforeEach(async () => {
-    const moduleRef: TestingModule = await Test.createTestingModule({
-      imports: [
-        UsersModule,
-        PassportModule,
-        JwtModule.register({
-          secret: jwtConstants.secret,
-          signOptions: { expiresIn: '60s' },
-        }),
-      ],
-      providers: [AuthService, JwtStrategy],
-    }).compile()
-
-    service = moduleRef.get<AuthService>(AuthService)
-  })
-
-  it('should return JWT object when credentials are valid', async () => {
-    const res = await service.login({ username: 'john', password: 'changeme' })
-    expect(res.access_token).toBeDefined()
-  })
+  // describe('validateLogin', () => {
+  //   it('should return JWT object when credentials are valid', async () => {
+  //     const res = await service.login({ username: 'john', password: 'changeme' })
+  //     expect(res.access_token).toBeDefined()
+  //   })
+  // })
 })

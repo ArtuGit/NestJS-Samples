@@ -8,11 +8,7 @@ import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly usersService: UsersService,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username)
