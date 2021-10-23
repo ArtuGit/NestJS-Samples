@@ -1,3 +1,11 @@
+export interface ICompany {
+  id: string
+  name: string
+  salesFunnelStage: SalesFunnelStage
+  websiteURL?: string
+  logoURI?: string
+}
+
 export enum SalesFunnelStage {
   Awareness = 'Awareness',
   Interest = 'Interest',

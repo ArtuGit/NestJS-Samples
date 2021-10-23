@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-import { SalesFunnelStage } from '../interfaces/companies.interfaces'
+import { ICompany, SalesFunnelStage } from '../types/companies.types'
 
-export class Company {
+export class Company implements ICompany {
   @ApiProperty({ type: String })
-  _id: string
+  id: string
 
   @ApiProperty({ type: String })
   name: string

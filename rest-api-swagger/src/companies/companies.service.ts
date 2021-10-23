@@ -9,7 +9,7 @@ import { Company } from './entities/company.entity'
 export class CompaniesService {
   async create(createCompanyBody: CreateCompanyBody): Promise<Company> {
     return {
-      _id: Math.floor(100000 + Math.random() * 900000).toString(),
+      id: Math.floor(100000 + Math.random() * 900000).toString(),
       ...createCompanyBody,
     }
   }
@@ -24,7 +24,7 @@ export class CompaniesService {
 
   async update(id: string, updateCompanyBody: UpdateCompanyBody): Promise<Company> {
     return {
-      _id: id,
+      id,
       ...updateCompanyBody,
     }
   }
