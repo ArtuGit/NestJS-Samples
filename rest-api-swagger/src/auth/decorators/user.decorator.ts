@@ -15,5 +15,5 @@ export const UserId = createParamDecorator((_, ctx: ExecutionContext) => {
     throw new UnauthorizedException('User not found in request')
   }
 
-  return request.user._id
+  return request.user.id
 })

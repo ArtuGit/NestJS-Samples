@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '../users/users.service'
 import { LoginBody } from '../users/dto/login.body'
 import { LoginResponse } from '../users/dto/login.response'
+import { IUserPublic } from '../users/interfaces/user.interface'
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,7 @@ export class AuthService {
   async login({ username, password }: LoginBody): Promise<LoginResponse> {
     if (!username || !password) throw new BadRequestException()
 
-    let user = null
+    let user: IUserPublic = null
 
     user = await this.validateUser(username, password)
 
@@ -29,8 +30,7 @@ export class AuthService {
       throw new BadRequestException()
     }
 
-    const payload = { username: user.username, sub: user.userId }
-
+    const payload = { username: user.username, sub: user.id }
     return {
       access_token: this.jwtService.sign(payload),
     }

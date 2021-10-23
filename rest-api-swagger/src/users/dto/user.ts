@@ -1,14 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-export class User {
-  @ApiProperty({ type: Number })
-  userId: number
+import { IUser } from '../interfaces/user.interface'
+
+export class User implements Omit<IUser, 'password'> {
+  @ApiProperty({ type: String })
+  id: string
 
   @ApiProperty({ type: String })
-  username: string
-}
-
-export interface IUser {
-  userId: number
   username: string
 }
