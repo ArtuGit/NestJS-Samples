@@ -1,13 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards, Query } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Put,
+  UseGuards,
+  Query,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
+  Req,
+} from '@nestjs/common'
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { diskStorage } from 'multer'
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { GetListQuery, PagedResponse } from '../common/pagination'
+import { IFileUploaded } from '../common/fileUploaded'
 
 import { CompaniesService } from './companies.service'
 import { CreateCompanyBody } from './dto/create-company.body'
 import { UpdateCompanyBody } from './dto/update-company.body'
 import { Company } from './entities/company.entity'
+import { editFileName, imageFileFilter } from './utils/file-upload.utils'
+import { ImageUploadResult } from './dto/image-upload.result'
 
 @ApiTags('Companies')
 @UseGuards(JwtAuthGuard)
@@ -47,6 +67,26 @@ export class CompaniesController {
   @Patch(':id')
   patch(@Param('id') id: string, @Body() updateCompanyBody: UpdateCompanyBody): Promise<Company> {
     return this.companiesService.patch(id, updateCompanyBody)
+  }
+
+  @ApiOkResponse({ type: ImageUploadResult })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  @Post('upload-logo')
+  uploadFile(@Req() req, @UploadedFile() file: Express.Multer.File): IFileUploaded {
+    if (!file) {
+      throw new BadRequestException('No file')
+    }
+    return {
+      filename: file.filename,
+    }
   }
 
   @ApiOkResponse({ type: Boolean })
