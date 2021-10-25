@@ -40,7 +40,7 @@ export class CompaniesController {
   }
 
   @Patch(':id')
-  patch(@Param('id') id: string, @Body() updateCompanyBody: UpdateCompanyBody) {
+  patch(@Param('id') id: string, @Body() updateCompanyBody: UpdateCompanyBody): Promise<Company> {
     return this.companiesService.patch(id, updateCompanyBody)
   }
 

@@ -34,15 +34,22 @@ export class CompaniesService {
   }
 
   async update(id: string, updateCompanyBody: UpdateCompanyBody): Promise<Company> {
-    this.companies[this.companies.findIndex(el => el.id === id)] = {
+    const exCompId = this.companies.findIndex((el) => el.id === id)
+    this.companies[exCompId] = {
       id,
       ...updateCompanyBody,
     }
-    return this.companies[id]
+    return this.companies[exCompId]
   }
 
-  patch(id: string, patchCompanyBody: PatchCompanyBody) {
-    return `This action patch a #${id} company`
+  async patch(id: string, patchCompanyBody: PatchCompanyBody): Promise<Company> {
+    const exCompId = this.companies.findIndex((el) => el.id === id)
+    const exComp = this.companies[exCompId]
+    this.companies[exCompId] = {
+      ...exComp,
+      ...patchCompanyBody,
+    }
+    return this.companies[exCompId]
   }
 
   remove(id: string) {
