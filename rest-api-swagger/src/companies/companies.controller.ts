@@ -79,7 +79,7 @@ export class CompaniesController {
       fileFilter: imageFileFilter,
     }),
   )
-  @Post('upload-logo')
+  @Post('upload-image')
   uploadFile(@Req() req, @UploadedFile() file: Express.Multer.File): IFileUploaded {
     if (!file) {
       throw new BadRequestException('No file')
