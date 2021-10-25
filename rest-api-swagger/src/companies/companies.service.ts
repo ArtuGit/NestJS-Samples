@@ -29,12 +29,17 @@ export class CompaniesService {
     return this.companies
   }
 
+  async findIndex(id: string): Promise<number> {
+    const exCompId: number = this.companies.findIndex((el) => el.id === id)
+    return exCompId
+  }
+
   async findOne(id: string): Promise<Company> {
     return this.companies.find((company) => company.id === id)
   }
 
   async update(id: string, updateCompanyBody: UpdateCompanyBody): Promise<Company> {
-    const exCompId = this.companies.findIndex((el) => el.id === id)
+    const exCompId = await this.findIndex(id)
     this.companies[exCompId] = {
       id,
       ...updateCompanyBody,
@@ -43,7 +48,7 @@ export class CompaniesService {
   }
 
   async patch(id: string, patchCompanyBody: PatchCompanyBody): Promise<Company> {
-    const exCompId = this.companies.findIndex((el) => el.id === id)
+    const exCompId = await this.findIndex(id)
     const exComp = this.companies[exCompId]
     this.companies[exCompId] = {
       ...exComp,
@@ -52,7 +57,9 @@ export class CompaniesService {
     return this.companies[exCompId]
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} company`
+  async remove(id: string): Promise<boolean> {
+    const exCompId = await this.findIndex(id)
+    this.companies.splice(exCompId, 1)
+    return true
   }
 }
