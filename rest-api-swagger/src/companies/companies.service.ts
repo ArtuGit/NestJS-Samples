@@ -4,14 +4,26 @@ import { CreateCompanyBody } from './dto/create-company.body'
 import { UpdateCompanyBody } from './dto/update-company.body'
 import { PatchCompanyBody } from './dto/patch-company.body'
 import { Company } from './entities/company.entity'
+import { ICompany } from "./types/companies.types";
+import { companiesStorage } from "./storage/companies.storage";
 
 @Injectable()
 export class CompaniesService {
+
+  private readonly companies: ICompany[]
+
+  constructor() {
+    this.companies = companiesStorage
+  }
+
   async create(createCompanyBody: CreateCompanyBody): Promise<Company> {
-    return {
-      id: Math.floor(100000 + Math.random() * 900000).toString(),
+    const id = (100000 + Math.random() * 900000).toString()
+    const company: Company = {
+      id,
       ...createCompanyBody,
     }
+    this.companies.push(company)
+    return company
   }
 
   findAll() {
