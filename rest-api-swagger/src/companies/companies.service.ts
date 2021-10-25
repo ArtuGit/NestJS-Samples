@@ -16,7 +16,7 @@ export class CompaniesService {
   }
 
   async create(createCompanyBody: CreateCompanyBody): Promise<Company> {
-    const id = (100000 + Math.random() * 900000).toString()
+    const id = Math.floor(10000000 + Math.random() * 90000000).toString()
     const company: Company = {
       id,
       ...createCompanyBody,
@@ -29,8 +29,8 @@ export class CompaniesService {
     return this.companies
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} company`
+  async findOne(id: string): Promise<Company> {
+    return this.companies.find((company) => company.id === id)
   }
 
   async update(id: string, updateCompanyBody: UpdateCompanyBody): Promise<Company> {

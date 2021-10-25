@@ -30,7 +30,7 @@ export class CompaniesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Company> {
     return this.companiesService.findOne(id)
   }
 
