@@ -39,7 +39,6 @@ export class CompaniesService {
 
   async findOne(id: string): Promise<Company> {
     const exCompId = await this.findIndex(id)
-    console.log('exCompId', exCompId)
     return this.companies[exCompId]
   }
 
