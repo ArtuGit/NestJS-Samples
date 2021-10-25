@@ -18,6 +18,6 @@ Based on `Custom Config Example`. Contains endpoints for Authentication and the 
 - JWT Authentication
 - Simple and necessary Swagger definitions
 - Validation and DTOs for requests Params, Bodies and Query strings
-- Examples for REST API Endpoints: GET, PUT, PATCH, DELETE
+- Examples for REST API Endpoints: POST, POST upload, GET, PUT, PATCH, DELETE
 - In-memory storage (to make the API really work).
 - Unit and E2E tests
