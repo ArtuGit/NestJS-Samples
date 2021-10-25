@@ -45,7 +45,7 @@ export class CompaniesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string):Promise<boolean> {
+  remove(@Param('id') id: string): Promise<boolean> {
     return this.companiesService.remove(id)
   }
 }

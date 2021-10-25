@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 
 import { CreateCompanyBody } from './dto/create-company.body'
 import { UpdateCompanyBody } from './dto/update-company.body'
@@ -31,11 +31,16 @@ export class CompaniesService {
 
   async findIndex(id: string): Promise<number> {
     const exCompId: number = this.companies.findIndex((el) => el.id === id)
+    if (exCompId === -1) {
+      throw new NotFoundException(`Company id=${id} is not found`)
+    }
     return exCompId
   }
 
   async findOne(id: string): Promise<Company> {
-    return this.companies.find((company) => company.id === id)
+    const exCompId = await this.findIndex(id)
+    console.log('exCompId', exCompId)
+    return this.companies[exCompId]
   }
 
   async update(id: string, updateCompanyBody: UpdateCompanyBody): Promise<Company> {
