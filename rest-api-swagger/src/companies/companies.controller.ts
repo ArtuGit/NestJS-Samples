@@ -24,26 +24,31 @@ export class CompaniesController {
     return this.companiesService.create(createCompanyBody)
   }
 
+  @ApiOkResponse({ type: Company, isArray: true })
   @Get()
   findAll(): Promise<Company[]> {
     return this.companiesService.findAll()
   }
 
+  @ApiOkResponse({ type: Company })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Company> {
     return this.companiesService.findOne(id)
   }
 
+  @ApiOkResponse({ type: Company })
   @Put(':id')
   update(@Param('id') id: string, @Body() updateCompanyBody: UpdateCompanyBody): Promise<Company> {
     return this.companiesService.update(id, updateCompanyBody)
   }
 
+  @ApiOkResponse({ type: Company })
   @Patch(':id')
   patch(@Param('id') id: string, @Body() updateCompanyBody: UpdateCompanyBody): Promise<Company> {
     return this.companiesService.patch(id, updateCompanyBody)
   }
 
+  @ApiOkResponse({ type: Boolean })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
     return this.companiesService.remove(id)
