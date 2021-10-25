@@ -34,10 +34,11 @@ export class CompaniesService {
   }
 
   async update(id: string, updateCompanyBody: UpdateCompanyBody): Promise<Company> {
-    return {
+    this.companies[this.companies.findIndex(el => el.id === id)] = {
       id,
       ...updateCompanyBody,
     }
+    return this.companies[id]
   }
 
   patch(id: string, patchCompanyBody: PatchCompanyBody) {
