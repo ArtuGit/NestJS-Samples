@@ -25,7 +25,7 @@ export class CompaniesController {
   }
 
   @Get()
-  findAll():Promise<Company[]> {
+  findAll(): Promise<Company[]> {
     return this.companiesService.findAll()
   }
 
