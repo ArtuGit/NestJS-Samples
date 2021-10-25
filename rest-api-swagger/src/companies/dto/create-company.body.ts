@@ -11,12 +11,11 @@ export class CreateCompanyBody {
 
   @ApiProperty({ enum: SalesFunnelStage })
   @IsEnum(SalesFunnelStage)
-  @IsOptional()
+  @IsNotEmpty()
   salesFunnelStage: SalesFunnelStage = SalesFunnelStage.Awareness
 
   @ApiProperty({ type: String })
   @IsUrl()
-  @IsNotEmpty()
   @IsOptional()
   websiteURL?: string
 }
