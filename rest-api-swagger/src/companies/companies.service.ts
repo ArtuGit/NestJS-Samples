@@ -4,12 +4,11 @@ import { CreateCompanyBody } from './dto/create-company.body'
 import { UpdateCompanyBody } from './dto/update-company.body'
 import { PatchCompanyBody } from './dto/patch-company.body'
 import { Company } from './entities/company.entity'
-import { ICompany } from "./types/companies.types";
-import { companiesStorage } from "./storage/companies.storage";
+import { ICompany } from './types/companies.types'
+import { companiesStorage } from './storage/companies.storage'
 
 @Injectable()
 export class CompaniesService {
-
   private readonly companies: ICompany[]
 
   constructor() {
@@ -26,8 +25,8 @@ export class CompaniesService {
     return company
   }
 
-  findAll() {
-    return `This action returns all companies`
+  async findAll(): Promise<Company[]> {
+    return this.companies
   }
 
   findOne(id: string) {

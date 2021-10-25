@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { forwardRef } from '@nestjs/common'
 
 import { AuthModule } from '../auth/auth.module'
+import { JwtStrategy, JwtStrategyTest } from '../auth/strategies/jwt.strategy'
 
 import { UsersController } from './users.controller'
-import { JwtStrategy, JwtStrategyTest } from '../auth/strategies/jwt.strategy'
 
 describe('UsersController', () => {
   let controller: UsersController

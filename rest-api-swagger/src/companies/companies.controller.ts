@@ -1,11 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards } from '@nestjs/common'
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger'
+
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 
 import { CompaniesService } from './companies.service'
 import { CreateCompanyBody } from './dto/create-company.body'
 import { UpdateCompanyBody } from './dto/update-company.body'
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 import { Company } from './entities/company.entity'
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 
 @ApiTags('Companies')
 @UseGuards(JwtAuthGuard)
@@ -24,7 +25,7 @@ export class CompaniesController {
   }
 
   @Get()
-  findAll() {
+  findAll():Promise<Company[]> {
     return this.companiesService.findAll()
   }
 

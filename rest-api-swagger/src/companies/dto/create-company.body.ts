@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { SalesFunnelStage } from '../types/companies.types'
 import { IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator'
+
+import { SalesFunnelStage } from '../types/companies.types'
 
 export class CreateCompanyBody {
   @ApiProperty({ type: String })
