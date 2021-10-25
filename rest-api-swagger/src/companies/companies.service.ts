@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 
+import { GetListQuery, PagedResponse } from '../common/pagination'
+
 import { CreateCompanyBody } from './dto/create-company.body'
 import { UpdateCompanyBody } from './dto/update-company.body'
 import { PatchCompanyBody } from './dto/patch-company.body'
@@ -25,8 +27,12 @@ export class CompaniesService {
     return company
   }
 
-  async findAll(): Promise<Company[]> {
-    return this.companies
+  async findAll(query: GetListQuery): Promise<PagedResponse<Company[]>> {
+    // query is not used for now, but it is ready
+    return {
+      result: this.companies,
+      totalCount: this.companies.length,
+    }
   }
 
   async findIndex(id: string): Promise<number> {

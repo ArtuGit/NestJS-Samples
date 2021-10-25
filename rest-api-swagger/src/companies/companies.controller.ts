@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards, Query } from '@nestjs/common'
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+import { GetListQuery, PagedResponse } from '../common/pagination'
 
 import { CompaniesService } from './companies.service'
 import { CreateCompanyBody } from './dto/create-company.body'
@@ -26,8 +27,8 @@ export class CompaniesController {
 
   @ApiOkResponse({ type: Company, isArray: true })
   @Get()
-  findAll(): Promise<Company[]> {
-    return this.companiesService.findAll()
+  findAll(@Query() query: GetListQuery): Promise<PagedResponse<Company[]>> {
+    return this.companiesService.findAll(query)
   }
 
   @ApiOkResponse({ type: Company })
