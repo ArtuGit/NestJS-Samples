@@ -25,6 +25,10 @@ class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   readonly JWT_EXPIRES_IN: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly UPLOAD_DIR: string
 }
 
 export function validate(config: Record<string, unknown>) {
