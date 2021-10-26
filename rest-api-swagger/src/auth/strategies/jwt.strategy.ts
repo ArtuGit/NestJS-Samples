@@ -4,7 +4,7 @@ import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt'
 import { ConfigService } from '@nestjs/config'
 
 import { UsersService } from '../../users/users.service'
-import { User } from '../../users/dto/user'
+import { User } from '../../users/entities/user'
 import { IUser } from '../../users/interfaces/user.interface'
 
 @Injectable()

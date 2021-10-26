@@ -7,7 +7,7 @@ import { User as UserLoggedIn } from '../auth/decorators/user.decorator'
 
 import { LoginBody } from './dto/login.body'
 import { LoginResponse } from './dto/login.response'
-import { User } from './dto/user'
+import { User } from './entities/user'
 
 @ApiTags('Users')
 @Controller({
@@ -16,6 +16,21 @@ import { User } from './dto/user'
 })
 export class UsersController {
   constructor(private readonly authService: AuthService) {}
+
+  // @Post('/register')
+  // public async register (@Body() body: RegisterRequest) {
+  //   const user = await this.users.createUserFromRequest(body)
+  //
+  //   const token = await this.tokens.generateAccessToken(user)
+  //   const refresh = await this.tokens.generateRefreshToken(user, 60 * 60 * 24 * 30)
+  //
+  //   const payload = this.buildResponsePayload(user, token, refresh)
+  //
+  //   return {
+  //     status: 'success',
+  //     data: payload,
+  //   }
+  // }
 
   @ApiOkResponse({ type: LoginResponse })
   @Post('login')
