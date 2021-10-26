@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import { hash } from 'bcrypt'
 
 import { usersStorage } from './storage/users.storage'
 import { IUser } from './interfaces/user.interface'
@@ -11,7 +12,23 @@ export class UsersService {
     this.users = usersStorage
   }
 
-  async findOne(username: string): Promise<IUser> {
+  public async register(username: string, password: string): Promise<IUser> {
+    const id = Math.floor(10000000 + Math.random() * 90000000).toString()
+    const passwordHashed = await hash(password, 10)
+    const user: IUser = {
+      id,
+      username,
+      password: passwordHashed,
+    }
+    this.users.push(user)
+    return user
+  }
+
+  async findOneById(id: string): Promise<IUser> {
+    return this.users.find((user) => user.id === id)
+  }
+
+  async findOneByUserName(username: string): Promise<IUser> {
     return this.users.find((user) => user.username === username)
   }
 }

@@ -23,7 +23,7 @@ describe('UsersService', () => {
   `(
     'should call findOne for $name and return $returnVal',
     async ({ name, returnVal }: { name: string; returnVal: IUser }) => {
-      expect(await service.findOne(name)).toEqual(returnVal)
+      expect(await service.findOneByUserName(name)).toEqual(returnVal)
     },
   )
 })
