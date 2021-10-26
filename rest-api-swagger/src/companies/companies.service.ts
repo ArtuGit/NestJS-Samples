@@ -67,6 +67,13 @@ export class CompaniesService {
     return this.companies[exCompId]
   }
 
+  async setLogo(id: string, logoURI: string): Promise<Company> {
+    const exCompId = await this.findIndex(id)
+    const exComp = this.companies[exCompId]
+    this.companies[exCompId].logoURI = logoURI
+    return this.companies[exCompId]
+  }
+
   async remove(id: string): Promise<boolean> {
     const exCompId = await this.findIndex(id)
     this.companies.splice(exCompId, 1)

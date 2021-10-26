@@ -79,11 +79,16 @@ export class CompaniesController {
       fileFilter: imageFileFilter,
     }),
   )
-  @Post('upload-image')
-  uploadFile(@Req() req, @UploadedFile() file: Express.Multer.File): IFileUploaded {
+  @Post('upload-logo')
+  async uploadFile(
+    @Req() req,
+    @Body('companyId') companyId: string,
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<IFileUploaded> {
     if (!file) {
       throw new BadRequestException('No file')
     }
+    await this.companiesService.setLogo(companyId, file.filename)
     return {
       filename: file.filename,
     }
