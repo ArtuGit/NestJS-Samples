@@ -4,12 +4,12 @@ import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 import { AuthService } from '../auth/auth.service'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { User as UserLoggedIn } from '../auth/decorators/user.decorator'
+import { TokensService } from '../auth/tokens.service'
 
-import { LoginBody } from './dto/login.body'
-import { LoginResponse } from './dto/login.response'
+import { LoginBody, LoginResponse, RegisterBody } from './dto'
 import { User } from './entities/user'
-import { RegisterBody } from './dto'
 import { UsersService } from './users.service'
+import { AuthenticatedResponse } from './dto/authenticated.response'
 
 @ApiTags('Users')
 @Controller({
@@ -17,21 +17,31 @@ import { UsersService } from './users.service'
   version: '1',
 })
 export class UsersController {
-  constructor(private readonly authService: AuthService, private readonly usersService: UsersService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly tokensService: TokensService,
+    private readonly usersService: UsersService,
+  ) {}
 
+  private static buildResponsePayload(user: User, accessToken: string, refreshToken?: string): AuthenticatedResponse {
+    return {
+      user: user,
+      payload: {
+        type: 'bearer',
+        token: accessToken,
+        ...(refreshToken ? { refresh_token: refreshToken } : {}),
+      },
+    }
+  }
+
+  @ApiOkResponse({ type: AuthenticatedResponse })
   @Post('/register')
-  public async register(@Body() body: RegisterBody) {
+  public async register(@Body() body: RegisterBody): Promise<AuthenticatedResponse> {
     const user = await this.usersService.register(body.username, body.password)
+    const token = await this.tokensService.generateAccessToken(user)
+    const refresh = await this.tokensService.generateRefreshToken(user, 60 * 60 * 24 * 30)
 
-    // const token = await this.tokens.generateAccessToken(user)
-    // const refresh = await this.tokens.generateRefreshToken(user, 60 * 60 * 24 * 30)
-    //
-    // const payload = this.buildResponsePayload(user, token, refresh)
-    //
-    // return {
-    //   status: 'success',
-    //   data: payload,
-    // }
+    return UsersController.buildResponsePayload(user, token, refresh)
   }
 
   @ApiOkResponse({ type: LoginResponse })

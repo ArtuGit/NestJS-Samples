@@ -1,6 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common'
 
 import { AuthModule } from '../auth/auth.module'
+import { TokensService } from '../auth/tokens.service'
 
 import { UsersService } from './users.service'
 import { UsersController } from './users.controller'

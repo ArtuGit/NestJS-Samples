@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnprocessableEntityException } from '@nestjs/common'
 import { hash } from 'bcrypt'
 
 import { usersStorage } from './storage/users.storage'
@@ -13,6 +13,12 @@ export class UsersService {
   }
 
   public async register(username: string, password: string): Promise<IUser> {
+    const exUser = await this.findOneByUserName(username)
+
+    if (exUser) {
+      throw new UnprocessableEntityException(`Username '${username}' already in use`)
+    }
+
     const id = Math.floor(10000000 + Math.random() * 90000000).toString()
     const passwordHashed = await hash(password, 10)
     const user: IUser = {

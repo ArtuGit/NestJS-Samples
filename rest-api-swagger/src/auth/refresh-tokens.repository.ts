@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common'
 
 import { User } from '../users/entities/user'
+import { usersStorage } from '../users/storage/users.storage'
 
 import { RefreshToken } from './entities/refresh-token.entity'
 
 @Injectable()
 export class RefreshTokensRepository {
   private refreshTokens: RefreshToken[]
+
+  constructor() {
+    this.refreshTokens = []
+  }
 
   public async createRefreshToken(user: User, ttl: number): Promise<RefreshToken> {
     const id = Math.floor(10000000 + Math.random() * 90000000).toString()

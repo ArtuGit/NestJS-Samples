@@ -7,6 +7,8 @@ import { UsersModule } from '../users/users.module'
 
 import { AuthService } from './auth.service'
 import { JwtStrategy } from './strategies/jwt.strategy'
+import { TokensService } from './tokens.service'
+import { RefreshTokensRepository } from './refresh-tokens.repository'
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { JwtStrategy } from './strategies/jwt.strategy'
     }),
     ConfigModule,
   ],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService],
+  providers: [RefreshTokensRepository, TokensService, AuthService, JwtStrategy],
+  exports: [TokensService, AuthService],
 })
 export class AuthModule {}
