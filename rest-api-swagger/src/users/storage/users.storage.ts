@@ -1,5 +1,6 @@
+import { hash, hashSync } from 'bcrypt'
+
 import { IUser } from '../interfaces/user.interface'
-import { hash, hashSync } from "bcrypt";
 
 export const usersStorage: IUser[] = [
   {
