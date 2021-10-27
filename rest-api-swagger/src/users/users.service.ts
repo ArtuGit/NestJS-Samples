@@ -41,7 +41,7 @@ export class UsersService {
 
   async validateCredentials(username: string, pass: string): Promise<User> {
     const user = await this.findOneByUserName(username)
-    if (user && compareSync(pass, hashSync(user.password, 10))) {
+    if (user && compareSync(pass, user.password)) {
       const { password, ...result } = user
       return result
     }
