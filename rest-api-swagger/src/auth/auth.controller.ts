@@ -5,19 +5,19 @@ import { ConfigService } from '@nestjs/config'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { User as UserLoggedIn } from '../auth/decorators/user.decorator'
 import { TokensService } from '../auth/tokens.service'
+import { User } from '../users/entities/user'
+import { UsersService } from '../users/users.service'
+import { IUserPublic } from '../users/interfaces/user.interface'
 
-import { LoginBody, LoginResponse, RefreshBody, RegisterBody } from './dto'
-import { User } from './entities/user'
-import { UsersService } from './users.service'
 import { AuthenticatedResponse } from './dto/authenticated.response'
-import { IUserPublic } from './interfaces/user.interface'
+import { LoginBody, LoginResponse, RefreshBody, RegisterBody } from './dto'
 
-@ApiTags('Users')
+@ApiTags('Authentication')
 @Controller({
-  path: 'user',
+  path: 'auth',
   version: '1',
 })
-export class UsersController {
+export class AuthenticationController {
   constructor(
     private readonly configService: ConfigService,
     private readonly tokensService: TokensService,
@@ -45,7 +45,7 @@ export class UsersController {
       this.configService.get<number>('JWT_ACCESS_TOKEN_DURATION_IN_MINUTES') * 60,
     )
 
-    return UsersController.buildResponsePayload(user, token, refresh)
+    return AuthenticationController.buildResponsePayload(user, token, refresh)
   }
 
   @ApiOkResponse({ type: LoginResponse })
@@ -66,7 +66,7 @@ export class UsersController {
       user,
       this.configService.get<number>('JWT_ACCESS_TOKEN_DURATION_IN_MINUTES') * 60,
     )
-    return UsersController.buildResponsePayload(user, token, refresh)
+    return AuthenticationController.buildResponsePayload(user, token, refresh)
   }
 
   @ApiOkResponse({ type: LoginResponse })
@@ -74,7 +74,7 @@ export class UsersController {
   public async refresh(@Body() body: RefreshBody) {
     const { user, token } = await this.tokensService.createAccessTokenFromRefreshToken(body.refreshToken)
 
-    return UsersController.buildResponsePayload(user, token)
+    return AuthenticationController.buildResponsePayload(user, token)
   }
 
   @UseGuards(JwtAuthGuard)
