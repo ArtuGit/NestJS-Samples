@@ -1,5 +1,6 @@
 import { BadRequestException, Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { ConfigService } from '@nestjs/config'
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { User as UserLoggedIn } from '../auth/decorators/user.decorator'
@@ -17,7 +18,11 @@ import { IUserPublic } from './interfaces/user.interface'
   version: '1',
 })
 export class UsersController {
-  constructor(private readonly tokensService: TokensService, private readonly usersService: UsersService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly tokensService: TokensService,
+    private readonly usersService: UsersService,
+  ) {}
 
   private static buildResponsePayload(user: User, accessToken: string, refreshToken?: string): AuthenticatedResponse {
     return {
@@ -35,7 +40,10 @@ export class UsersController {
   public async register(@Body() body: RegisterBody): Promise<AuthenticatedResponse> {
     const user = await this.usersService.register(body.username, body.password)
     const token = await this.tokensService.generateAccessToken(user)
-    const refresh = await this.tokensService.generateRefreshToken(user, 60 * 60 * 24 * 30)
+    const refresh = await this.tokensService.generateRefreshToken(
+      user,
+      this.configService.get<number>('JWT_ACCESS_TOKEN_DURATION_IN_MINUTES') * 60,
+    )
 
     return UsersController.buildResponsePayload(user, token, refresh)
   }
@@ -54,7 +62,10 @@ export class UsersController {
     }
 
     const token = await this.tokensService.generateAccessToken(user)
-    const refresh = await this.tokensService.generateRefreshToken(user, 60 * 60 * 24 * 30)
+    const refresh = await this.tokensService.generateRefreshToken(
+      user,
+      this.configService.get<number>('JWT_ACCESS_TOKEN_DURATION_IN_MINUTES') * 60,
+    )
     return UsersController.buildResponsePayload(user, token, refresh)
   }
 
