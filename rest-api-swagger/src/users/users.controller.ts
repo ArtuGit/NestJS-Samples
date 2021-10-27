@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import { BadRequestException, Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
 import { AuthService } from '../auth/auth.service'
@@ -10,6 +10,7 @@ import { LoginBody, LoginResponse, RegisterBody } from './dto'
 import { User } from './entities/user'
 import { UsersService } from './users.service'
 import { AuthenticatedResponse } from './dto/authenticated.response'
+import { IUserPublic } from './interfaces/user.interface'
 
 @ApiTags('Users')
 @Controller({
@@ -46,8 +47,20 @@ export class UsersController {
 
   @ApiOkResponse({ type: LoginResponse })
   @Post('login')
-  async login(@Body() { username, password }: LoginBody): Promise<LoginResponse> {
-    return this.authService.login({ username, password })
+  async login(@Body() { username, password }: LoginBody): Promise<AuthenticatedResponse> {
+    if (!username || !password) throw new BadRequestException()
+
+    let user: IUserPublic = null
+
+    user = await this.authService.validateUser(username, password)
+
+    if (!user) {
+      throw new BadRequestException()
+    }
+
+    const token = await this.tokensService.generateAccessToken(user)
+    const refresh = await this.tokensService.generateRefreshToken(user, 60 * 60 * 24 * 30)
+    return UsersController.buildResponsePayload(user, token, refresh)
   }
 
   @UseGuards(JwtAuthGuard)

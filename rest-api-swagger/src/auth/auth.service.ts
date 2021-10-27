@@ -1,38 +1,30 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
+import { compare, compareSync, hashSync } from 'bcrypt'
 
 import { UsersService } from '../users/users.service'
 import { LoginBody } from '../users/dto/login.body'
 import { LoginResponse } from '../users/dto/login.response'
 import { IUserPublic } from '../users/interfaces/user.interface'
+import { User } from '../users/entities/user'
+import { AuthenticatedResponse } from '../users/dto/authenticated.response'
+
+import { TokensService } from './tokens.service'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly tokensService: TokensService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
+  async validateUser(username: string, pass: string): Promise<User> {
     const user = await this.usersService.findOneByUserName(username)
-    if (user && user.password === pass) {
+    if (user && compareSync(pass, hashSync(user.password, 10))) {
       const { password, ...result } = user
       return result
     }
     return null
-  }
-
-  async login({ username, password }: LoginBody): Promise<LoginResponse> {
-    if (!username || !password) throw new BadRequestException()
-
-    let user: IUserPublic = null
-
-    user = await this.validateUser(username, password)
-
-    if (!user) {
-      throw new BadRequestException()
-    }
-
-    const payload = { username: user.username, sub: user.id }
-    return {
-      access_token: this.jwtService.sign(payload),
-    }
   }
 }
