@@ -1,8 +1,9 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common'
-import { hash } from 'bcrypt'
+import { compareSync, hash, hashSync } from 'bcrypt'
 
 import { usersStorage } from './storage/users.storage'
 import { IUser } from './interfaces/user.interface'
+import { User } from './entities/user'
 
 @Injectable()
 export class UsersService {
@@ -36,5 +37,14 @@ export class UsersService {
 
   async findOneByUserName(username: string): Promise<IUser> {
     return this.users.find((user) => user.username === username)
+  }
+
+  async validateCredentials(username: string, pass: string): Promise<User> {
+    const user = await this.findOneByUserName(username)
+    if (user && compareSync(pass, hashSync(user.password, 10))) {
+      const { password, ...result } = user
+      return result
+    }
+    return null
   }
 }

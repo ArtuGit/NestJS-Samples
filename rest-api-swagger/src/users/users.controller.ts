@@ -1,7 +1,6 @@
 import { BadRequestException, Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
-import { AuthService } from '../auth/auth.service'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { User as UserLoggedIn } from '../auth/decorators/user.decorator'
 import { TokensService } from '../auth/tokens.service'
@@ -18,11 +17,7 @@ import { IUserPublic } from './interfaces/user.interface'
   version: '1',
 })
 export class UsersController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly tokensService: TokensService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly tokensService: TokensService, private readonly usersService: UsersService) {}
 
   private static buildResponsePayload(user: User, accessToken: string, refreshToken?: string): AuthenticatedResponse {
     return {
@@ -52,7 +47,7 @@ export class UsersController {
 
     let user: IUserPublic = null
 
-    user = await this.authService.validateUser(username, password)
+    user = await this.usersService.validateCredentials(username, password)
 
     if (!user) {
       throw new BadRequestException()

@@ -5,7 +5,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 
 import { UsersModule } from '../users/users.module'
 
-import { AuthService } from './auth.service'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { TokensService } from './tokens.service'
 import { RefreshTokensRepository } from './refresh-tokens.repository'
@@ -24,7 +23,7 @@ import { RefreshTokensRepository } from './refresh-tokens.repository'
     }),
     ConfigModule,
   ],
-  providers: [RefreshTokensRepository, TokensService, AuthService, JwtStrategy],
-  exports: [TokensService, AuthService],
+  providers: [RefreshTokensRepository, TokensService, JwtStrategy],
+  exports: [TokensService],
 })
 export class AuthModule {}
