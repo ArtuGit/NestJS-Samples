@@ -71,15 +71,14 @@ export class TokensService {
 
   public async createAccessTokenFromRefreshToken(refresh: string): Promise<{ token: string; user: User }> {
     const { user } = await this.resolveRefreshToken(refresh)
-
     const token = await this.generateAccessToken(user)
-
     return { user, token }
   }
 
-  private async decodeRefreshToken(token: string): Promise<RefreshTokenPayload> {
+  private async decodeRefreshToken(tokenRefresh: string): Promise<RefreshTokenPayload> {
     try {
-      return this.jwtService.verifyAsync(token)
+      const token = this.jwtService.verify(tokenRefresh)
+      return token
     } catch (e) {
       if (e instanceof TokenExpiredError) {
         throw new UnprocessableEntityException('Refresh token expired')

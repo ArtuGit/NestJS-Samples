@@ -1,6 +1,6 @@
-import { IsNotEmpty } from 'class-validator'
+import { IS_JWT, IsNotEmpty } from 'class-validator'
 
-export class RefreshRequest {
-  @IsNotEmpty({ message: 'The refresh token is required' })
-  readonly refresh_token: string
+export class RefreshBody {
+  @IsNotEmpty()
+  readonly refreshToken: string
 }

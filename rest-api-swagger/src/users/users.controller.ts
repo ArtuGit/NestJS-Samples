@@ -5,7 +5,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { User as UserLoggedIn } from '../auth/decorators/user.decorator'
 import { TokensService } from '../auth/tokens.service'
 
-import { LoginBody, LoginResponse, RegisterBody } from './dto'
+import { LoginBody, LoginResponse, RefreshBody, RegisterBody } from './dto'
 import { User } from './entities/user'
 import { UsersService } from './users.service'
 import { AuthenticatedResponse } from './dto/authenticated.response'
@@ -58,11 +58,19 @@ export class UsersController {
     return UsersController.buildResponsePayload(user, token, refresh)
   }
 
+  @ApiOkResponse({ type: LoginResponse })
+  @Post('/refresh')
+  public async refresh(@Body() body: RefreshBody) {
+    const { user, token } = await this.tokensService.createAccessTokenFromRefreshToken(body.refreshToken)
+
+    return UsersController.buildResponsePayload(user, token)
+  }
+
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: User })
-  @Get('profile')
-  getProfile(@UserLoggedIn() user: any): User {
+  @Get('me')
+  me(@UserLoggedIn() user: any): User {
     return user
   }
 }
