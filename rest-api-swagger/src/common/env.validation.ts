@@ -22,9 +22,13 @@ class EnvironmentVariables {
   @IsNotEmpty()
   readonly JWT_SECRET: string
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  readonly JWT_EXPIRES_IN: string
+  readonly JWT_ACCESS_TOKEN_DURATION_IN_MINUTES: number
+
+  @IsNumber()
+  @IsNotEmpty()
+  readonly JWT_REFRESH_TOKEN_DURATION_IN_MINUTES: number
 
   @IsString()
   @IsNotEmpty()

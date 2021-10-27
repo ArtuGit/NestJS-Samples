@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('JWT_SECRET'),
       signOptions: {
-        expiresIn: configService.get<string>('JWT_EXPIRES_IN'),
+        expiresIn: configService.get<number>('JWT_ACCESS_TOKEN_DURATION_IN_MINUTES').toString() + 'm',
       },
     })
   }
