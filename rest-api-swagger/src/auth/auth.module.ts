@@ -12,7 +12,8 @@ import { AuthenticationController } from './auth.controller'
 
 @Module({
   imports: [
-    forwardRef(() => UsersModule),
+    ConfigModule,
+    UsersModule,
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -22,10 +23,8 @@ import { AuthenticationController } from './auth.controller'
       }),
       inject: [ConfigService],
     }),
-    ConfigModule,
   ],
   providers: [RefreshTokensRepository, TokensService, JwtStrategy],
-  exports: [TokensService],
   controllers: [AuthenticationController],
 })
 export class AuthModule {}
