@@ -19,11 +19,13 @@ describe('UsersService', () => {
   })
   it.each`
     name      | returnVal
-    ${'john'} | ${{ id: '1', username: 'john', password: 'changeme' }}
+    ${'john'} | ${{ id: '1', username: 'john' }}
   `(
     'should call findOne for $name and return $returnVal',
     async ({ name, returnVal }: { name: string; returnVal: IUser }) => {
-      expect(await service.findOneByUserName(name)).toEqual(returnVal)
+      const { password, ...user } = await service.findOneByUserName(name)
+
+      expect(user).toEqual(returnVal)
     },
   )
 })
