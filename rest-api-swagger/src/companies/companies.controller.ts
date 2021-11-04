@@ -28,6 +28,7 @@ import { UpdateCompanyBody } from './dto/update-company.body'
 import { Company } from './entities/company.entity'
 import { editFileName, imageFileFilter } from './utils/file-upload.utils'
 import { ImageUploadResult } from './dto/image-upload.result'
+import { PatchCompanyBody } from './dto/patch-company.body'
 
 @ApiTags('Companies')
 @UseGuards(JwtAuthGuard)
@@ -65,8 +66,8 @@ export class CompaniesController {
 
   @ApiOkResponse({ type: Company })
   @Patch(':id')
-  patch(@Param('id') id: string, @Body() updateCompanyBody: UpdateCompanyBody): Promise<Company> {
-    return this.companiesService.patch(id, updateCompanyBody)
+  patch(@Param('id') id: string, @Body() patchCompanyBody: PatchCompanyBody): Promise<Company> {
+    return this.companiesService.patch(id, patchCompanyBody)
   }
 
   @ApiOkResponse({ type: ImageUploadResult })
