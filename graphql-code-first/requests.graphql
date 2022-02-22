@@ -1,0 +1,13 @@
+mutation {
+  addRecipe(
+    newRecipeData: {
+      title: "Title"
+      description: "Description description must be longer than or equal to 30"
+      ingredients: ["sugar", "wood"]
+    }
+  ) {
+    id
+    title
+    description
+  }
+}

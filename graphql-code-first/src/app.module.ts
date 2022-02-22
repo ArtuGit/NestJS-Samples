@@ -3,6 +3,7 @@ import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 import { upperDirectiveTransformer } from "./common/directives/upper-case.directive";
 import { RecipesModule } from "./recipes/recipes.module";
+import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 
 @Module({
   imports: [
@@ -12,6 +13,9 @@ import { RecipesModule } from "./recipes/recipes.module";
       autoSchemaFile: "schema.gql",
       transformSchema: (schema) => upperDirectiveTransformer(schema, "upper"),
       installSubscriptionHandlers: true,
+      /* Apollo Sandbox
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()], */
     }),
   ],
 })
