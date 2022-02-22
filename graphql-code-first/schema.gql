@@ -2,9 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""
-recipe
-"""
+"""recipe """
 type Recipe {
   id: ID!
   title: String!
@@ -13,9 +11,7 @@ type Recipe {
   ingredients: [String!]!
 }
 
-"""
-Date custom scalar type
-"""
+"""Date custom scalar type"""
 scalar Date
 
 type Query {

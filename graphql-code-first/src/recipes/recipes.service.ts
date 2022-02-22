@@ -12,7 +12,11 @@ export class RecipesService {
    */
 
   async create(data: NewRecipeInput): Promise<Recipe> {
-    return {} as any;
+    return  {
+      id: Math.floor(Math.random() * 100000).toString(),
+      creationDate: new Date(),
+      ...data
+    }
   }
 
   async findOneById(id: string): Promise<Recipe> {
