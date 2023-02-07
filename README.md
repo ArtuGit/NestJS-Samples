@@ -1,13 +1,5 @@
 # NestJS Samples
 
-## [Nest9 Clean](https://github.com/ArtuGit/NestJS-Samples/tree/master/nest9-clean)
-
-In order to check the difference with new versions.
-
-## [Nest8 Clean](https://github.com/ArtuGit/NestJS-Samples/tree/master/nest8-clean)
-
-In order to check the difference with new versions.
-
 ## [Custom Config Example](https://github.com/ArtuGit/NestJS-Samples/tree/master/custom-config-example)
 
 - Better ESLint configuration
@@ -25,3 +17,10 @@ Based on `Custom Config Example`. Contains endpoints for Authentication and the 
 - Examples for REST API Endpoints: POST, POST upload, GET, PUT, PATCH, DELETE
 - In-memory storage (to make the API really work).
 - Unit and E2E tests
+
+## History
+
+In order to check the difference with new versions.
+
+- [Nest9 Clean](https://github.com/ArtuGit/NestJS-Samples/tree/master/nest9-clean)
+- [Nest8 Clean](https://github.com/ArtuGit/NestJS-Samples/tree/master/nest8-clean)
