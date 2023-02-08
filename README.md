@@ -18,7 +18,7 @@ Based on `Custom Config Example`. Contains endpoints for Authentication and the 
 - In-memory storage (to make the API really work).
 - Unit and E2E tests
 
-## Other
+## Others
 
 - [Nest Fastify Mongoose](https://github.com/ArtuGit/NestJS-Samples/tree/master/nest-fastify-mongoose)
 
