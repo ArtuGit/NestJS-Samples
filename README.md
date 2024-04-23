@@ -21,6 +21,7 @@ Based on `Custom Config Example`. Contains endpoints for Authentication and the 
 ## Others
 
 - [Nest Fastify Mongoose](https://github.com/ArtuGit/NestJS-Samples/tree/master/nest-fastify-mongoose)
+- [Nest GraphQL Mongoose Prototype](https://github.com/ArtuGit/NestJS-Samples/tree/master/graphql-proto)
 
 ## History
 
